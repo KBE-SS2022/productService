@@ -11,9 +11,9 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">xxx</property>
-        <property name="hibernate.connection.username">xxx</property>
-        <property name="hibernate.connection.password">xxx</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://ec2-52-49-120-150.eu-west-1.compute.amazonaws.com:5432/d3128l5shrkrnd</property>
+        <property name="hibernate.connection.username">ovultfckufuyar</property>
+        <property name="hibernate.connection.password">a0d81bf2475614dea9bc4407d3ff37dff9a74fff50392d055eaeb6ef3b191b98</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>

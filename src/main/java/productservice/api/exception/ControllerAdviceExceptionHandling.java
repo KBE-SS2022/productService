@@ -18,4 +18,9 @@ public class ControllerAdviceExceptionHandling extends ResponseEntityExceptionHa
     public ResponseEntity<String> handlePizzaNotFoundException(PizzaNotFoundException pizzaNotFoundException) {
         return new ResponseEntity<>(pizzaNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(CouldNotCreateException.class)
+    public ResponseEntity<String> handleCouldNotCreateException(CouldNotCreateException couldNotCreateException) {
+        return new ResponseEntity<>(couldNotCreateException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

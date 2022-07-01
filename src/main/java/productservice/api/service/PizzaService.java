@@ -22,4 +22,8 @@ public class PizzaService {
         return pizzaRepository.findById(id).orElseThrow(()->
                 new PizzaNotFoundException("Pizza with id: " + id + " not found in Database"));
     }
+
+    public Pizza savePizza(Pizza pizza){
+        return pizzaRepository.save(pizza);
+    }
 }

@@ -1,7 +1,5 @@
 package productservice.api.dto;
 
-import warehouse.api.entity.Pizza;
-
 import java.util.List;
 
 public class PizzaDTO {
