@@ -1,5 +1,6 @@
 package productservice.api.dto;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class PizzaDTO {
@@ -15,6 +16,12 @@ public class PizzaDTO {
         this.id = id;
         this.name = name;
         this.ingredientIDs = ingredientIDs;
+    }
+
+    public PizzaDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.ingredientIDs = new LinkedList<>();
     }
 
     public Long getId() {

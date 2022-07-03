@@ -1,5 +1,6 @@
 package productservice.api.dto;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class IngredientDTO {
@@ -30,6 +31,20 @@ public class IngredientDTO {
         this.weight = weight;
         this.price = price;
         this.pizzaIDs = pizzaIDs;
+    }
+
+    public IngredientDTO(Long id, String name, String brand, String countryOrigin, char nutritionScore,
+                         Integer calories, Integer amount, Double weight, Double price) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.countryOrigin = countryOrigin;
+        this.nutritionScore = nutritionScore;
+        this.calories = calories;
+        this.amount = amount;
+        this.weight = weight;
+        this.price = price;
+        this.pizzaIDs = new LinkedList<>();
     }
 
     public Long getId() {
