@@ -6,15 +6,15 @@ public class PizzaDTO {
 
     private Long id;
     private String name;
-    private List<Long> ingredientsIDs;
+    private List<Long> ingredientIDs;
 
 
     public PizzaDTO() {}
 
-    public PizzaDTO(Long id, String name, List<Long> ingredientsIDs) {
+    public PizzaDTO(Long id, String name, List<Long> ingredientIDs) {
         this.id = id;
         this.name = name;
-        this.ingredientsIDs = ingredientsIDs;
+        this.ingredientIDs = ingredientIDs;
     }
 
     public Long getId() {
@@ -25,7 +25,7 @@ public class PizzaDTO {
         return name;
     }
 
-    public List<Long> getIngredientsIDs() {
-        return ingredientsIDs;
+    public List<Long> getIngredientIDs() {
+        return ingredientIDs;
     }
 }

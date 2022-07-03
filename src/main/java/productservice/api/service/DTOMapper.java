@@ -71,7 +71,7 @@ public class DTOMapper {
     public Pizza toPizza(PizzaDTO pizzaDTO){
         Long id = pizzaDTO.getId();
         String name = pizzaDTO.getName();
-        List<Ingredient> ingredients = pizzaDTO.getIngredientsIDs().stream()
+        List<Ingredient> ingredients = pizzaDTO.getIngredientIDs().stream()
                 .map(ingredient_id -> {
                     Optional<Ingredient> maybeIngredient = ingredientRepository.findById(ingredient_id);
                     if(maybeIngredient.isPresent()) return maybeIngredient.get();

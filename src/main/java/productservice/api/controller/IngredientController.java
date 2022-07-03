@@ -21,21 +21,16 @@ public class IngredientController {
 
 	@Autowired
 	private IngredientService ingredientService;
-	@Autowired
-	private DTOMapper mapper;
 
 	@GetMapping(path = "/ingredients", produces = "application/json")
 	public ResponseEntity<List<IngredientDTO>> getIngredients() {
-		List<Ingredient> allIngredients = ingredientService.getIngredients();
-		List<IngredientDTO> allIngredientsDTO = allIngredients.stream()
-				.map(ingredient -> mapper.toIngredientDTO(ingredient)).collect(Collectors.toList());
-		return new ResponseEntity<>(allIngredientsDTO, HttpStatus.OK);
+		List<IngredientDTO> allIngredients = ingredientService.getIngredients();
+		return new ResponseEntity<>(allIngredients, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/ingredient/{id}", produces = "application/json")
 	public ResponseEntity<IngredientDTO> getIngredientById(@PathVariable(value = "id") Long ingredientId) {
-		Ingredient ingredientById = this.ingredientService.getIngredient(ingredientId);
-		IngredientDTO ingredientByIDDTO = mapper.toIngredientDTO(ingredientById);
-		return new ResponseEntity<>(ingredientByIDDTO, HttpStatus.OK);
+		IngredientDTO ingredientById = this.ingredientService.getIngredient(ingredientId);
+		return new ResponseEntity<>(ingredientById, HttpStatus.OK);
 	}
 }

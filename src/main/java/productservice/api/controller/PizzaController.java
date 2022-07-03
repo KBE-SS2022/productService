@@ -21,28 +21,23 @@ public class PizzaController {
 
     @Autowired
     private PizzaService pizzaService;
-    @Autowired
-    private DTOMapper mapper;
+
 
     @GetMapping(path = "/pizzas", produces = "application/json")
     public ResponseEntity<List<PizzaDTO>> getPizzas() {
-        List<Pizza> allPizzas = pizzaService.getPizzas();
-        List<PizzaDTO> allIngredientsDTO = allPizzas.stream()
-                .map(pizza -> mapper.toPizzaDTO(pizza)).collect(Collectors.toList());
-        return new ResponseEntity<>(allIngredientsDTO,HttpStatus.OK);
+        List<PizzaDTO> allPizzas = pizzaService.getPizzas();
+        return new ResponseEntity<>(allPizzas,HttpStatus.OK);
     }
 
     @GetMapping(path = "/pizza/{id}", produces = "application/json")
     public ResponseEntity<PizzaDTO> getPizzaById(@PathVariable(value = "id") Long pizzaId) throws PizzaNotFoundException {
-        Pizza pizzaById = this.pizzaService.getPizza(pizzaId);
-        PizzaDTO pizzaByIDDTO = mapper.toPizzaDTO(pizzaById);
-        return new ResponseEntity<>(pizzaByIDDTO, HttpStatus.OK);
+        PizzaDTO pizzaById = this.pizzaService.getPizza(pizzaId);
+        return new ResponseEntity<>(pizzaById, HttpStatus.OK);
     }
 
     @PostMapping(path ="pizza/create", produces = "application/json")
     public ResponseEntity<Pizza> createPizza(@RequestBody PizzaDTO pizzaDTO) {
-        Pizza newPizza = mapper.toPizza(pizzaDTO);
-        Pizza pizza = pizzaService.savePizza(newPizza);
+        Pizza pizza = pizzaService.savePizza(pizzaDTO);
         if(pizza == null) throw new CouldNotCreateException("Pizza could not be created");
         else return new ResponseEntity<Pizza>(pizza, HttpStatus.CREATED);
     }
