@@ -35,10 +35,10 @@ public class PizzaController {
         return new ResponseEntity<>(pizzaById, HttpStatus.OK);
     }
 
-    @PostMapping(path ="pizza/create", produces = "application/json")
+    @PostMapping(path ="/pizza/create", produces = "application/json")
     public ResponseEntity<Pizza> createPizza(@RequestBody PizzaDTO pizzaDTO) {
         Pizza pizza = pizzaService.savePizza(pizzaDTO);
         if(pizza == null) throw new CouldNotCreateException("Pizza could not be created");
-        else return new ResponseEntity<Pizza>(pizza, HttpStatus.CREATED);
+        else return new ResponseEntity<>(pizza, HttpStatus.CREATED);
     }
 }
