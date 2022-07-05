@@ -34,6 +34,7 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
     private PizzaService pizzaService;
 
     private Pizza pizza;
+    private PizzaDTO dto;
 
     @BeforeAll
     public void init() {
@@ -46,12 +47,11 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
                 150,1,100.0,2.5));
 
         this.pizza = new Pizza(10111L,"Salami", ingredientList);
+        this.dto = new PizzaDTO(10111L,"Salami", List.of(20L, 101L, 10101L));
     }
 
     @Test
     void getPizzaById_ExpectGoodCase() throws  PizzaNotFoundException {
-        PizzaDTO dto = new PizzaDTO(10111L,"Salami", List.of(20L, 101L, 10101L));
-
         when(pizzaRepository.findById(10111L)).thenReturn(Optional.of(this.pizza));
         when(dtoMapper.toPizzaDTO(pizza)).thenReturn(dto);
 
@@ -78,7 +78,6 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
         Pizza pizza1 = new Pizza(3001L,"Thunfisch", ingredientList1);
         List<Pizza> pizzaList = List.of(this.pizza, pizza1);
 
-        PizzaDTO dto = new PizzaDTO(10111L,"Salami", List.of(20L, 101L, 10101L));
         PizzaDTO dto1 = new PizzaDTO(3001L, "Thunfisch", List.of(20L, 101L, 10101L));
 
         when(pizzaRepository.findAll()).thenReturn(pizzaList);
@@ -103,5 +102,23 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
         List<Pizza>emptyPizzaList = new LinkedList<>();
         when(pizzaRepository.findAll()).thenReturn(emptyPizzaList);
         Assert.assertEquals(0, pizzaService.getPizzas().size());
+    }
+    @Test
+    void createPizza_ShouldReturnPizza() {
+        when(dtoMapper.toPizza(dto)).thenReturn(pizza);
+        when(pizzaRepository.save(pizza)).thenReturn(pizza);
+
+        Assert.assertEquals(pizza.getId(), pizzaService.savePizza(dto).getId());
+        Assert.assertEquals(pizza.getName(), pizzaService.savePizza(dto).getName());
+        Assert.assertEquals(20L, (long)pizzaService.savePizza(dto).getIngredients().get(0).getId());
+        Assert.assertEquals(101L, (long)pizzaService.savePizza(dto).getIngredients().get(1).getId());
+        Assert.assertEquals(10101L,(long)pizzaService.savePizza(dto).getIngredients().get(2).getId());
+    }
+    @Test
+    void createPizza_ShouldReturnNull() {
+        when(pizzaRepository.save(pizza)).thenReturn(null);
+        when(dtoMapper.toPizza(dto)).thenReturn(pizza);
+
+        Assert.assertTrue(pizzaService.savePizza(dto) == null);
     }
 }
