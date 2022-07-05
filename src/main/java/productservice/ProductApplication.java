@@ -1,4 +1,4 @@
-package com.example.product;
+package productservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,5 +10,4 @@ public class ProductApplication {
 		SpringApplication.run(ProductApplication.class, args);
 		System.out.println("Hello Products");
 	}
-
 }
