@@ -2,10 +2,7 @@ package productservice.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,19 +12,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import productservice.api.dto.IngredientDTO;
 import productservice.api.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.ControllerAdviceExceptionHandling;
 import productservice.api.exception.PizzaNotFoundException;
-import productservice.api.service.DTOMapper;
+import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,9 +40,10 @@ public class PizzaControllerMockMvcIntegrationTest {
     @MockBean
     private PizzaService pizzaService;
     @MockBean
-    private DTOMapper dtoMapper;
+    private PizzaDTOMapper pizzaDtoMapper;
 
     private PizzaDTO pizza;
+    private PizzaDTO pizzaNew;
     private List<Long> ingredientIDList;
     private final String getPizzaListPath = "/pizzas";
     private final String getPizzaByIdPath = "/pizza/{id}";
@@ -56,20 +52,20 @@ public class PizzaControllerMockMvcIntegrationTest {
     @BeforeAll
     void init () {
         ingredientIDList = List.of(10101L, 10102L, 10105L);
-        this.pizza = new PizzaDTO(10L,"Salami", ingredientIDList);
+        pizza = new PizzaDTO(10L,"Salami", ingredientIDList);
+        pizzaNew = new PizzaDTO(10206L,"Thunfisch", ingredientIDList);
     }
 
     @Test
     void testMockMvcCreation(){
-        assertNotNull(mockMvc);
+        Assertions.assertNotNull(mockMvc);
     }
 
     @Test
     public void getPizzas_ShouldReturnPizzaList() throws Exception {
-        PizzaDTO pizza1 = new PizzaDTO(10206L,"Thunfisch", ingredientIDList);
-        when(this.pizzaService.getPizzas()).thenReturn(List.of(this.pizza, pizza1));
+        when(pizzaService.getPizzas()).thenReturn(List.of(pizza, pizzaNew));
 
-        this.mockMvc.perform(get(this.getPizzaListPath).contentType("application/json"))
+        mockMvc.perform(get(getPizzaListPath).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.is(2)))
                 .andExpect(jsonPath("$.[0].size()", Matchers.is(3)))
@@ -90,17 +86,16 @@ public class PizzaControllerMockMvcIntegrationTest {
     public void getPizzas_ShouldReturnEmptyList() throws Exception {
         List<PizzaDTO> emptyList = new LinkedList<>();
 
-        when(this.pizzaService.getPizzas()).thenReturn(emptyList);
-        this.mockMvc.perform(get(this.getPizzaListPath).contentType("application/json"))
+        when(pizzaService.getPizzas()).thenReturn(emptyList);
+        mockMvc.perform(get(getPizzaListPath).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.is(0)));
     }
     @Test
     public void getPizzasWithNotNeededParameterInput_ShouldReturnPizzaList()throws Exception{
-        PizzaDTO pizza1 = new PizzaDTO(10206L,"Thunfisch", ingredientIDList);
-        when(this.pizzaService.getPizzas()).thenReturn(List.of(this.pizza, pizza1));
+        when(pizzaService.getPizzas()).thenReturn(List.of(pizza, pizzaNew));
 
-        this.mockMvc.perform(get(this.getPizzaListPath,"extraInputString",20).contentType("application/json"))
+        mockMvc.perform(get(getPizzaListPath,"extraInputString",20).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.is(2)))
                 .andExpect(jsonPath("$.[0].size()", Matchers.is(3)))
@@ -132,34 +127,35 @@ public class PizzaControllerMockMvcIntegrationTest {
     }
     @Test
     public void getPizzaById_ShouldGetPizzaNotFoundResponse() throws Exception {
-        when(this.pizzaService.getPizza(20L)).thenThrow(new PizzaNotFoundException("Pizza with id :20 not found in Database"));
-        this.mockMvc.perform(get(this.getPizzaByIdPath,20L).contentType(MediaType.APPLICATION_JSON))
+        when(this.pizzaService.getPizza(20L)).thenThrow(new PizzaNotFoundException(20L));
+
+        mockMvc.perform(get(getPizzaByIdPath,20L).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
     @Test
     public void getPizzaById_ShouldGetBadRequestResponse() throws Exception {
-        this.mockMvc.perform(get(this.getPizzaByIdPath,"extraInputVariable").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(getPizzaByIdPath,"extraInputVariable").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
-    @Disabled("There is some error within the Mocking. However, the test is running successful in Postman")
     @Test
+    @Disabled("There is some error within the Mocking. However, the test is running successful in Postman")
     public void createPizza_ShouldBeCreated() throws Exception {
         Ingredient ingredient = new Ingredient(10101L,"Brot","jaa","italy",'d',
                 350,1,100.0,4.0);
         Pizza newPizza = new Pizza(10L,"Salami", List.of(ingredient));
 
-        when(this.pizzaService.savePizza(this.pizza)).thenReturn(newPizza);
+        when(pizzaService.savePizza(pizza)).thenReturn(newPizza);
 
         ObjectMapper mapper = new ObjectMapper();
-        String body = mapper.writeValueAsString(this.pizza);
+        String body = mapper.writeValueAsString(pizza);
 
-        this.mockMvc.perform(post(this.postPizzaPath).contentType(MediaType.APPLICATION_JSON).content(body))
+        mockMvc.perform(post(postPizzaPath).contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated())
                 .andDo(MockMvcResultHandlers.print());
     }
     @Test
     public void createPizza_ShouldGetBadRequestResponse() throws Exception {
-        this.mockMvc.perform(post(this.postPizzaPath).contentType(MediaType.APPLICATION_JSON).content("{}"))
+        mockMvc.perform(post(postPizzaPath).contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isBadRequest());
     }
 }

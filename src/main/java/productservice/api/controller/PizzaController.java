@@ -6,14 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import productservice.api.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.CouldNotCreateException;
+import productservice.api.exception.CouldNotCreatePizzaException;
 import productservice.api.exception.PizzaNotFoundException;
-import productservice.api.service.DTOMapper;
 import productservice.api.service.PizzaService;
 
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -21,7 +18,6 @@ public class PizzaController {
 
     @Autowired
     private PizzaService pizzaService;
-
 
     @GetMapping(path = "/pizzas", produces = "application/json")
     public ResponseEntity<List<PizzaDTO>> getPizzas() {
@@ -38,7 +34,7 @@ public class PizzaController {
     @PostMapping(path ="/pizza/create", produces = "application/json")
     public ResponseEntity<Pizza> createPizza(@RequestBody PizzaDTO pizzaDTO) {
         Pizza pizza = pizzaService.savePizza(pizzaDTO);
-        if(pizza == null) throw new CouldNotCreateException("Pizza could not be created");
+        if(pizza == null) throw new CouldNotCreatePizzaException();
         else return new ResponseEntity<>(pizza, HttpStatus.CREATED);
     }
 }

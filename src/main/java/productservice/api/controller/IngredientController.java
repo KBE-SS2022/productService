@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import productservice.api.dto.IngredientDTO;
-import productservice.api.entity.Ingredient;
-import productservice.api.service.DTOMapper;
 import productservice.api.service.IngredientService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
