@@ -10,25 +10,24 @@ import productservice.api.exception.IngredientNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class IngredientService {
 
     @Autowired
-    private DTOMapper dtoMapper;
+    private IngredientDTOMapper ingredientDtoMapper;
     @Autowired
     private IngredientRepository ingredientRepository;
 
     public List<IngredientDTO> getIngredients() {
         List<Ingredient> allIngredients = ingredientRepository.findAll();
         return allIngredients.stream()
-                .map(ingredient -> dtoMapper.toIngredientDTO(ingredient))
+                .map(ingredient -> ingredientDtoMapper.toIngredientDTO(ingredient))
                 .collect(Collectors.toList());
     }
 
     public IngredientDTO getIngredient(Long id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(()->
-                new IngredientNotFoundException("Ingredient with id: " + id + " not found in Database"));
-        return dtoMapper.toIngredientDTO(ingredient);
+                new IngredientNotFoundException(id));
+        return ingredientDtoMapper.toIngredientDTO(ingredient);
     }
 }

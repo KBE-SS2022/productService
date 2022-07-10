@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
 public class PizzaService {
 
     @Autowired
-    DTOMapper dtoMapper;
+    PizzaDTOMapper pizzaDtoMapper;
     @Autowired
     private PizzaRepository pizzaRepository;
 
     public List<PizzaDTO> getPizzas() {
         List<Pizza> allPizzas = pizzaRepository.findAll();
         return allPizzas.stream()
-                .map(pizza -> dtoMapper.toPizzaDTO(pizza))
+                .map(pizza -> pizzaDtoMapper.toPizzaDTO(pizza))
                 .collect(Collectors.toList());
     }
 
     public PizzaDTO getPizza(Long id) throws PizzaNotFoundException {
         Pizza pizza =  pizzaRepository.findById(id).orElseThrow(()->
-                new PizzaNotFoundException("Pizza with id: " + id + " not found in Database"));
-        return dtoMapper.toPizzaDTO(pizza);
+                new PizzaNotFoundException(id));
+        return pizzaDtoMapper.toPizzaDTO(pizza);
     }
 
     public Pizza savePizza(PizzaDTO pizza){
-        Pizza newPizza = dtoMapper.toPizza(pizza);
+        Pizza newPizza = pizzaDtoMapper.toPizza(pizza);
         return pizzaRepository.save(newPizza);
     }
 }

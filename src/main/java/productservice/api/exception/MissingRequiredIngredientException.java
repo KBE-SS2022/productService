@@ -2,7 +2,7 @@ package productservice.api.exception;
 
 public class MissingRequiredIngredientException extends RuntimeException {
 
-    public MissingRequiredIngredientException(String message){
-        super(message);
+    public MissingRequiredIngredientException(long id, long requiredIngredient){
+        super("Pizza with ID " + id + " doesn´t contain Ingredient with ID " + requiredIngredient);
     }
 }
