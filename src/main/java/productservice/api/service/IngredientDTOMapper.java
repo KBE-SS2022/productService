@@ -8,6 +8,7 @@ import productservice.api.entity.Pizza;
 import productservice.api.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,9 +29,8 @@ public class IngredientDTOMapper {
         Integer amount = ingredient.getAmount();
         Double weight = ingredient.getWeight();
         Double price = ingredient.getPrice();
-        List<Long> pizzaIDs = ingredient.getPizzaIDs();
 
-        return new IngredientDTO(id, name, brand, countryOrigin, nutritionScore, calories, amount, weight, price, pizzaIDs);
+        return new IngredientDTO(id, name, brand, countryOrigin, nutritionScore, calories, amount, weight, price);
     }
 
     public Ingredient toIngredient(IngredientDTO ingredientDTO) {
@@ -43,13 +43,7 @@ public class IngredientDTOMapper {
         Integer amount = ingredientDTO.getAmount();
         Double weight = ingredientDTO.getWeight();
         Double price = ingredientDTO.getPrice();
-        List<Pizza> pizzas = ingredientDTO.getPizzaIDs().stream()
-                .map(pizza_id -> {
-                    Optional<Pizza> maybePizza = pizzaRepository.findById(pizza_id);
-                    if(maybePizza.isPresent()) return maybePizza.get();
-                    else throw new PizzaNotFoundException(pizza_id);
-                })
-                .collect(Collectors.toList());
+        List<Pizza> pizzas = new LinkedList<>();
 
         return new Ingredient(id, name, brand, countryOrigin, nutritionScore, calories, amount, weight, price, pizzas);
     }

@@ -8,6 +8,7 @@ import productservice.api.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.CouldNotCreatePizzaException;
 import productservice.api.exception.PizzaNotFoundException;
+import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 
 import java.util.List;
@@ -18,6 +19,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaService pizzaService;
+
+    @Autowired
+    private PizzaDTOMapper dtoMapper;
 
     @GetMapping(path = "/pizzas", produces = "application/json")
     public ResponseEntity<List<PizzaDTO>> getPizzas() {
