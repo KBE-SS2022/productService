@@ -13,22 +13,36 @@ import org.springframework.context.annotation.Configuration;
 public class MQConfig {
 
     @Bean
-    public TopicExchange exchange() { return new TopicExchange(Constant.EXCHANGE); }
+    public TopicExchange pizzaExchange() { return new TopicExchange(Constant.PIZZA_EXCHANGE); }
 
     @Bean
-    public Queue pizzaQueue() { return new Queue(Constant.PIZZA_QUEUE, false); }
+    public TopicExchange ingredientExchange() { return new TopicExchange(Constant.INGREDIENT_EXCHANGE); }
 
     @Bean
-    public Queue ingredientQueue() { return new Queue(Constant.INGREDIENT_QUEUE, false); }
+    public Queue getAllPizzaQueue() { return new Queue(Constant.GETALL_PIZZA_QUEUE, false); }
 
     @Bean
-    public Binding PizzaBinding(@Qualifier("pizzaQueue") Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(Constant.PIZZA_ROUTING_KEY);
+    public Queue getPizzaQueue() { return new Queue(Constant.GET_PIZZA_QUEUE, false); }
+
+    @Bean
+    public Queue createPizzaQueue() { return new Queue(Constant.CREATE_PIZZA_QUEUE, false); }
+
+    @Bean
+    public Binding getPizzasBinding(@Qualifier("getAllPizzaQueue") Queue queue,
+                                    @Qualifier("pizzaExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(Constant.GETALL_KEY);
     }
 
     @Bean
-    public Binding IngredientBinding(@Qualifier("ingredientQueue") Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(Constant.INGREDIENT_ROUTING_KEY);
+    public Binding getPizzaByIDBinding(@Qualifier("getPizzaQueue") Queue queue,
+                                   @Qualifier("pizzaExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(Constant.GET_KEY);
+    }
+
+    @Bean
+    public Binding createPizzaBinding(@Qualifier("createPizzaQueue") Queue queue,
+                                      @Qualifier("pizzaExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(Constant.CREATE_KEY);
     }
 
     @Bean
