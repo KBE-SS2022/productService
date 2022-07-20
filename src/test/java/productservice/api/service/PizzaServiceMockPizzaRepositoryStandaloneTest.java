@@ -16,9 +16,8 @@ import productservice.api.exception.IngredientNotFoundException;
 import productservice.api.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 
@@ -50,7 +49,7 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
                 150,1,100.0,2.5));
 
         pizza = new Pizza(10111L,"Salami", ingredientList);
-        dto = new PizzaDTO(10111L,"Salami", List.of(20L, 101L, 10101L));
+        dto = new PizzaDTO(10111L,"Salami", Map.of(20L,4.0, 101L,2.5, 10101L,2.5));
 
         List<Ingredient> ingredientList1 = new LinkedList<>();
         ingredientList1.add(new Ingredient(20L,"Thunfisch","jaa","italy",'d',
@@ -60,7 +59,7 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
         ingredientList1.add(new Ingredient(10101L,"Brot","jaa","spain",'b',
                 150,1,100.0,2.5));
         pizza1 = new Pizza(3001L,"Thunfisch", ingredientList1);
-        dto1 = new PizzaDTO(3001L, "Thunfisch", List.of(20L, 101L, 10101L));
+        dto1 = new PizzaDTO(3001L, "Thunfisch", Map.of(20L,4.0, 101L,2.5, 10101L,2.5));
     }
 
     @Test
@@ -70,9 +69,9 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
 
         Assertions.assertEquals((pizza.getId()), pizzaService.getPizza(10111L).getId());
         Assertions.assertEquals(pizza.getName(), pizzaService.getPizza(10111L).getName());
-        Assertions.assertEquals(20L, (long)pizzaService.getPizza(10111L).getIngredientIDs().get(0));
-        Assertions.assertEquals(101L, (long)pizzaService.getPizza(10111L).getIngredientIDs().get(1));
-        Assertions.assertEquals(10101L,(long)pizzaService.getPizza(10111L).getIngredientIDs().get(2));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(20L));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(101L));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(10101L));
     }
     @Test
     void getPizzaByIdNotFoundException() throws IngredientNotFoundException {
@@ -96,12 +95,13 @@ class PizzaServiceMockPizzaRepositoryStandaloneTest {
         Assertions.assertEquals(3001L, (long)pizzaService.getPizzas().get(1).getId());
         Assertions.assertEquals("Salami", pizzaService.getPizza(10111L).getName());
         Assertions.assertEquals("Thunfisch", pizzaService.getPizza(3001L).getName());
-        Assertions.assertEquals(20L, (long)pizzaService.getPizza(10111L).getIngredientIDs().get(0));
-        Assertions.assertEquals(101L, (long)pizzaService.getPizza(10111L).getIngredientIDs().get(1));
-        Assertions.assertEquals(10101L, (long)pizzaService.getPizza(10111L).getIngredientIDs().get(2));
-        Assertions.assertEquals(20L, (long)pizzaService.getPizza(3001L).getIngredientIDs().get(0));
-        Assertions.assertEquals(101L, (long)pizzaService.getPizza(3001L).getIngredientIDs().get(1));
-        Assertions.assertEquals(10101L,(long)pizzaService.getPizza(3001L).getIngredientIDs().get(2));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(20L));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(101L));
+        Assertions.assertTrue(pizzaService.getPizza(10111L).getIngredientIdToPrice().containsKey(10101L));
+
+        Assertions.assertTrue(pizzaService.getPizza(3001L).getIngredientIdToPrice().containsKey(20L));
+        Assertions.assertTrue(pizzaService.getPizza(3001L).getIngredientIdToPrice().containsKey(101L));
+        Assertions.assertTrue(pizzaService.getPizza(3001L).getIngredientIdToPrice().containsKey(10101L));
     }
     @Test
     void getPizzas_ShouldReturnEmptyPizzaList() {
