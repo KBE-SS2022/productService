@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.CouldNotCreatePizzaException;
-import productservice.api.exception.PizzaNotFoundException;
 import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 

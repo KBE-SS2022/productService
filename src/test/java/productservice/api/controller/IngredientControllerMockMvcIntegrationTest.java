@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import productservice.api.dto.IngredientDTO;
+import productservice.dto.IngredientDTO;
 import productservice.api.exception.ControllerAdviceExceptionHandling;
 import productservice.api.exception.IngredientNotFoundException;
 import productservice.api.service.IngredientDTOMapper;

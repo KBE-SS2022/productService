@@ -1,6 +1,6 @@
 package productservice.api.service;
 
-import productservice.api.dto.IngredientDTO;
+import productservice.dto.IngredientDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

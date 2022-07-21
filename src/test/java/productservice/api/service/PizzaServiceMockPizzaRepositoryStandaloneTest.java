@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.IngredientNotFoundException;
@@ -17,7 +17,6 @@ import productservice.api.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 

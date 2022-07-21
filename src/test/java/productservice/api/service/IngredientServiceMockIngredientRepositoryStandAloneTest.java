@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import productservice.api.dto.IngredientDTO;
+import productservice.dto.IngredientDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.exception.IngredientNotFoundException;
 import productservice.api.repository.IngredientRepository;

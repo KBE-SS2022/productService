@@ -1,4 +1,4 @@
-package productservice.api.dto;
+package productservice.dto;
 
 import lombok.*;
 

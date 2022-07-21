@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import productservice.api.controller.IngredientController;
-import productservice.api.dto.IngredientDTO;
+import productservice.dto.IngredientDTO;
 import productservice.rabbitmq.config.Constant;
 
 import java.io.IOException;

@@ -2,7 +2,7 @@ package productservice.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.IngredientNotFoundException;

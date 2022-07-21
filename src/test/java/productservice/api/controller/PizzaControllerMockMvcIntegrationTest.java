@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
 import productservice.api.exception.ControllerAdviceExceptionHandling;
