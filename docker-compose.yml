@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9000:8081
+      - 9000:9000
     restart: always
     depends_on:
       - rabbitmq
