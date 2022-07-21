@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  productservice:
+    container_name: productservice
+    command: java -jar target/messageProducer-0.0.1-SNAPSHOT.jar
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9000:8081
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_DEFAULT_USER = admin
+      - SPRING_RABBITMQ_DEFAULT_USER = admin2017
+    volumes:
+      - ./:/app/app
