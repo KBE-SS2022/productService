@@ -30,7 +30,7 @@ public class PizzaController {
     }
 
     @GetMapping(path = "/pizza/{id}", produces = "application/json")
-    public ResponseEntity<PizzaDTO> getPizzaById(@PathVariable(value = "id") Long pizzaId) throws PizzaNotFoundException {
+    public ResponseEntity<PizzaDTO> getPizzaById(@PathVariable(value = "id") Long pizzaId) {
         PizzaDTO pizzaById = this.pizzaService.getPizza(pizzaId);
         return new ResponseEntity<>(pizzaById, HttpStatus.OK);
     }
