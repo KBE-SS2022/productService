@@ -139,7 +139,6 @@ public class PizzaControllerMockMvcIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    @Disabled("There is some error within the Mocking. However, the test is running successful in Postman")
     public void createPizza_ShouldBeCreated() throws Exception {
         Ingredient ingredient = new Ingredient(10101L,"Brot","jaa","italy",'d',
                 350,1,100.0,4.0);
