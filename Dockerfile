@@ -20,4 +20,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 ENTRYPOINT ["java","-cp","app:app/lib/*","productservice.ProductApplication"]
 
-EXPOSE 8081
+EXPOSE 9002

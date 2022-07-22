@@ -1,4 +1,4 @@
-package productservice.api.exception;
+package productservice.exception;
 
 public class MissingRequiredIngredientException extends RuntimeException {
 

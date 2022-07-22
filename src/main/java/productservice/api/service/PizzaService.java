@@ -4,8 +4,8 @@ import productservice.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import productservice.api.exception.IDAlreadyExistsException;
-import productservice.api.exception.PizzaNotFoundException;
+import productservice.exception.IDAlreadyExistsException;
+import productservice.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
 import java.util.List;

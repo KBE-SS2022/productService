@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.ControllerAdviceExceptionHandling;
-import productservice.api.exception.PizzaNotFoundException;
+import productservice.exception.ControllerAdviceExceptionHandling;
+import productservice.exception.PizzaNotFoundException;
 import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 

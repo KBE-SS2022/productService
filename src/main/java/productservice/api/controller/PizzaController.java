@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import productservice.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.CouldNotCreatePizzaException;
+import productservice.exception.CouldNotCreatePizzaException;
 import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 

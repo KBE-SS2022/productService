@@ -5,7 +5,7 @@ import productservice.api.entity.Ingredient;
 import productservice.api.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import productservice.api.exception.IngredientNotFoundException;
+import productservice.exception.IngredientNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

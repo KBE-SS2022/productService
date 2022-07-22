@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.IngredientNotFoundException;
+import productservice.exception.IngredientNotFoundException;
 import productservice.api.repository.IngredientRepository;
 
 import java.util.*;

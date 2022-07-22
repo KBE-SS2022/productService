@@ -12,8 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.IngredientNotFoundException;
-import productservice.api.exception.PizzaNotFoundException;
+import productservice.exception.IngredientNotFoundException;
+import productservice.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
 import java.util.*;

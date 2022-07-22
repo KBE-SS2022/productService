@@ -1,9 +1,8 @@
 package productservice.api.entity;
 
-import productservice.api.exception.MissingRequiredIngredientException;
+import productservice.exception.MissingRequiredIngredientException;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
