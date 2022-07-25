@@ -1,10 +1,11 @@
 package productservice.api.service;
 
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import productservice.api.exception.PizzaNotFoundException;
+import productservice.exception.IDAlreadyExistsException;
+import productservice.exception.PizzaNotFoundException;
 import productservice.api.repository.PizzaRepository;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public class PizzaService {
 
     public Pizza savePizza(PizzaDTO pizza){
         Pizza newPizza = pizzaDtoMapper.toPizza(pizza);
-        return pizzaRepository.save(newPizza);
+        Long id = newPizza.getId();
+        if(pizzaRepository.existsById(id)) throw new IDAlreadyExistsException(id);
+        else return pizzaRepository.save(newPizza);
     }
 }

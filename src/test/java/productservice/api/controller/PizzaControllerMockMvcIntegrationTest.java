@@ -12,16 +12,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import productservice.api.dto.PizzaDTO;
+import productservice.dto.PizzaDTO;
 import productservice.api.entity.Ingredient;
 import productservice.api.entity.Pizza;
-import productservice.api.exception.ControllerAdviceExceptionHandling;
-import productservice.api.exception.PizzaNotFoundException;
+import productservice.exception.ControllerAdviceExceptionHandling;
+import productservice.exception.PizzaNotFoundException;
 import productservice.api.service.PizzaDTOMapper;
 import productservice.api.service.PizzaService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,16 +45,16 @@ public class PizzaControllerMockMvcIntegrationTest {
 
     private PizzaDTO pizza;
     private PizzaDTO pizzaNew;
-    private List<Long> ingredientIDList;
+    private Map<Long,Double> ingredientIdToPrice;
     private final String getPizzaListPath = "/pizzas";
     private final String getPizzaByIdPath = "/pizza/{id}";
     private final String postPizzaPath = "/pizza/create";
 
     @BeforeAll
     void init () {
-        ingredientIDList = List.of(10101L, 10102L, 10105L);
-        pizza = new PizzaDTO(10L,"Salami", ingredientIDList);
-        pizzaNew = new PizzaDTO(10206L,"Thunfisch", ingredientIDList);
+        ingredientIdToPrice = Map.of(10101L, 1.00, 10102L, 2.50, 10105L, 1.50);
+        pizza = new PizzaDTO(10L,"Salami", ingredientIdToPrice);
+        pizzaNew = new PizzaDTO(10206L,"Thunfisch", ingredientIdToPrice);
     }
 
     @Test
@@ -71,16 +72,16 @@ public class PizzaControllerMockMvcIntegrationTest {
                 .andExpect(jsonPath("$.[0].size()", Matchers.is(3)))
                 .andExpect(jsonPath("$[0].id").value("10"))
                 .andExpect(jsonPath("$[0].name").value("Salami"))
-                .andExpect(jsonPath("$[0].ingredientIDs[0]").value(10101L))
-                .andExpect(jsonPath("$[0].ingredientIDs[1]").value(10102L))
-                .andExpect(jsonPath("$[0].ingredientIDs[2]").value(10105L))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10101")))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10102")))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10105")))
 
                 .andExpect(jsonPath("$.[1].size()", Matchers.is(3)))
                 .andExpect(jsonPath("$[1].id").value("10206"))
                 .andExpect(jsonPath("$[1].name").value("Thunfisch"))
-                .andExpect(jsonPath("$[1].ingredientIDs[0]").value(10101L))
-                .andExpect(jsonPath("$[1].ingredientIDs[1]").value(10102L))
-                .andExpect(jsonPath("$[1].ingredientIDs[2]").value(10105L));
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10101")))
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10102")))
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10105")));
     }
     @Test
     public void getPizzas_ShouldReturnEmptyList() throws Exception {
@@ -101,16 +102,16 @@ public class PizzaControllerMockMvcIntegrationTest {
                 .andExpect(jsonPath("$.[0].size()", Matchers.is(3)))
                 .andExpect(jsonPath("$[0].id").value("10"))
                 .andExpect(jsonPath("$[0].name").value("Salami"))
-                .andExpect(jsonPath("$[0].ingredientIDs[0]").value(10101L))
-                .andExpect(jsonPath("$[0].ingredientIDs[1]").value(10102L))
-                .andExpect(jsonPath("$[0].ingredientIDs[2]").value(10105L))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10101")))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10102")))
+                .andExpect(jsonPath("$[0].ingredientIdToPrice", Matchers.hasKey("10105")))
 
                 .andExpect(jsonPath("$.[1].size()", Matchers.is(3)))
                 .andExpect(jsonPath("$[1].id").value("10206"))
                 .andExpect(jsonPath("$[1].name").value("Thunfisch"))
-                .andExpect(jsonPath("$[1].ingredientIDs[0]").value(10101L))
-                .andExpect(jsonPath("$[1].ingredientIDs[1]").value(10102L))
-                .andExpect(jsonPath("$[1].ingredientIDs[2]").value(10105L));
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10101")))
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10102")))
+                .andExpect(jsonPath("$[1].ingredientIdToPrice", Matchers.hasKey("10105")));
     }
     @Test
     public void getPizzaByID_ShouldGetPizzaByID() throws Exception {
@@ -121,9 +122,9 @@ public class PizzaControllerMockMvcIntegrationTest {
                 .andExpect(jsonPath("$.size()", Matchers.is(3)))
                 .andExpect(jsonPath("$.id").value("10"))
                 .andExpect(jsonPath("$.name").value("Salami"))
-                .andExpect(jsonPath("$.ingredientIDs[0]").value(10101L))
-                .andExpect(jsonPath("$.ingredientIDs[1]").value(10102L))
-                .andExpect(jsonPath("$.ingredientIDs[2]").value(10105L));
+                .andExpect(jsonPath("$.ingredientIdToPrice", Matchers.hasKey("10101")))
+                .andExpect(jsonPath("$.ingredientIdToPrice", Matchers.hasKey("10102")))
+                .andExpect(jsonPath("$.ingredientIdToPrice", Matchers.hasKey("10105")));
     }
     @Test
     public void getPizzaById_ShouldGetPizzaNotFoundResponse() throws Exception {
@@ -138,7 +139,6 @@ public class PizzaControllerMockMvcIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    @Disabled("There is some error within the Mocking. However, the test is running successful in Postman")
     public void createPizza_ShouldBeCreated() throws Exception {
         Ingredient ingredient = new Ingredient(10101L,"Brot","jaa","italy",'d',
                 350,1,100.0,4.0);
