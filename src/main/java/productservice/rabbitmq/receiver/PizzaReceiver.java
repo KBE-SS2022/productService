@@ -11,9 +11,9 @@ import productservice.api.controller.PizzaController;
 import productservice.dto.PizzaDTO;
 import productservice.api.entity.Pizza;
 import productservice.api.service.PizzaDTOMapper;
+import productservice.rabbitmq.MyAcknowledgement;
 import productservice.rabbitmq.config.Constant;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -26,8 +26,8 @@ public class PizzaReceiver {
     PizzaDTOMapper dtoMapper;
 
     @RabbitListener(queues = Constant.GETALL_PIZZA_QUEUE)
-    public List<PizzaDTO> getPizzas(Channel channel) throws IOException {
-        channel.basicAck(1L, true);
+    public List<PizzaDTO> getPizzas(Channel channel) {
+        MyAcknowledgement.setAcknowledgement(channel, 1L, true);
         ResponseEntity<List<PizzaDTO>> entity;
         entity = pizzaController.getPizzas();
         List<PizzaDTO> allPizzas = entity.getBody();
@@ -35,8 +35,8 @@ public class PizzaReceiver {
     }
 
     @RabbitListener(queues = Constant.GET_PIZZA_QUEUE)
-    public PizzaDTO getPizzaByID(@Payload Long id, Channel channel) throws IOException {
-        channel.basicAck(1L, true);
+    public PizzaDTO getPizzaByID(@Payload Long id, Channel channel) {
+        MyAcknowledgement.setAcknowledgement(channel, 1L, true);
         ResponseEntity<PizzaDTO> entity;
         entity = pizzaController.getPizzaById(id);
         PizzaDTO pizzaDTO = entity.getBody();
@@ -44,8 +44,8 @@ public class PizzaReceiver {
     }
 
     @RabbitListener(queues = Constant.CREATE_PIZZA_QUEUE)
-    public PizzaDTO createPizza(@Payload PizzaDTO pizzaDTO, Channel channel) throws IOException {
-        channel.basicAck(1L, true);
+    public PizzaDTO createPizza(@Payload PizzaDTO pizzaDTO, Channel channel) {
+        MyAcknowledgement.setAcknowledgement(channel, 1L, true);
         ResponseEntity<Pizza> entity;
         entity = pizzaController.createPizza(pizzaDTO);
         Pizza newPizza = entity.getBody();

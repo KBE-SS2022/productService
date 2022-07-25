@@ -12,7 +12,6 @@ import productservice.dto.IngredientDTO;
 import productservice.rabbitmq.MyAcknowledgement;
 import productservice.rabbitmq.config.Constant;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component

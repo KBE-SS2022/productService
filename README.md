@@ -10,4 +10,4 @@ The Application will run on `localhost:9002`
 
 ### Swagger
 
-View Documentation here: `http://localhost:9001/swagger-ui/index.html`
+View Documentation here: `http://localhost:9002/swagger-ui/index.html`
